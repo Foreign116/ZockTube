@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "axios": "^0.19.0",
     "bootstrap": "^4.4.1",
     "gatsby": "^2.18.8",
     "gatsby-image": "^2.2.34",
@@ -41,5 +42,6 @@
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
-  }
+  },
+  "proxy": "http://kissanimefree.net/"
 }
