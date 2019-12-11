@@ -1,0 +1,13 @@
+*{
+    background-color: black;
+    color: white; 
+}
+.header {
+    margin-bottom: 5rem;
+}
+.header-content{
+    border-bottom: 1px solid white;
+}
+.push-down {
+    margin-bottom: 5rem;
+}
