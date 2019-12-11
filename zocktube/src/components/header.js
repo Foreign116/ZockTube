@@ -6,7 +6,13 @@ import '../styles/index.css'
 const Header = ({ siteTitle }) => (
   <header className="header">
     <div className="container header-content">
-      <h1>{siteTitle}</h1>
+      <nav className="navbar">
+        <a className="navbar-brand">{siteTitle}</a>
+        <form className="form-inline">
+          <input className="form-control" id="animeSearch" type="text" placeholder="Search" aria-label="Search"/>
+          <button className="btn text-white btn-outline-dark" type="submit">Search</button>
+        </form>
+      </nav>
     </div>
   </header>
 )
