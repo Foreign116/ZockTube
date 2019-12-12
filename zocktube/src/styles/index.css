@@ -28,3 +28,6 @@
   a{
       color: white;
   }
+  .button-left-space {
+    margin-left: 2rem;
+  }
