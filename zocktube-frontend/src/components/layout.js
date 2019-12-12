@@ -11,13 +11,18 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 
+let socket = require('socket.io-client')('http://127.0.0.1:4001');
+
 const Layout = (props) => {
   const [animeurl, setAnime] = useState("");
 
   const callBackAnime = (url) => {
     setAnime(url)
-    console.log(animeurl)
   }
+
+  socket.on("outgoing data", (data) =>{
+    setAnime(data.url)
+    })
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -32,6 +37,7 @@ const Layout = (props) => {
     const stateAsProps = React.Children.map(children, child =>
       React.cloneElement(child, {
         animeurl: animeurl,
+        socket: socket,
       })
     );
 

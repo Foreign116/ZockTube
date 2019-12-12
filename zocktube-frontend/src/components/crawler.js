@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const animeUrl = (url, callBackAnime) => {
+  //https://twist.moe/a/hack-roots/1
     axios.get("https://cors-anywhere.herokuapp.com/"+url)
       .then(res => {
         let htmlString = res.data;

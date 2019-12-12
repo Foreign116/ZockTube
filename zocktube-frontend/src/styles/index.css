@@ -31,3 +31,8 @@
   .button-left-space {
     margin-left: 2rem;
   }
+
+  .inner-iframe {
+      width: 100%;
+      height: 100%;
+  }

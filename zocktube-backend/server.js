@@ -17,7 +17,8 @@ io.on("connection", socket => {
     //Here we listen on a new namespace called "incoming data"
     socket.on("incoming data", (data)=>{
         //Here we broadcast it out to all other sockets EXCLUDING the socket which sent us the data
-       socket.broadcast.emit("outgoing data", {num: data});
+        console.log(data);
+       socket.broadcast.emit("outgoing data", {url: data});
     });
 
     //A special namespace "disconnect" for when a client disconnects
