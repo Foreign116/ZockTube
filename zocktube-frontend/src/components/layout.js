@@ -16,13 +16,10 @@ let socket = require('socket.io-client')('http://127.0.0.1:4001');
 const Layout = (props) => {
   const [animeurl, setAnime] = useState("");
 
-  const callBackAnime = (url) => {
-    setAnime(url)
-  }
-
-  socket.on("outgoing data", (data) =>{
-    setAnime(data.url)
-    })
+  socket.on("outgoing data", (data)=>{
+    setAnime(data.url);
+    console.log(data.url)
+  });
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -44,7 +41,7 @@ const Layout = (props) => {
   return (
     <>
     <div className="site">
-      <Header callBackAnime={callBackAnime} siteTitle={data.site.siteMetadata.title} />
+      <Header socket={socket} siteTitle={data.site.siteMetadata.title} />
         <div>
           <main className='site-content'>{stateAsProps}</main>
         </div>

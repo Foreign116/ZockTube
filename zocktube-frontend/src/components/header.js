@@ -2,16 +2,15 @@ import PropTypes from "prop-types"
 import React, {useState} from "react"
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/index.css'
-import {animeUrl} from './crawler'
 
 
 
-const Header = ({ siteTitle, callBackAnime }) => {
+const Header = ({ siteTitle,socket }) => {
   const [anime, setAnime] = useState("");
 
-  const handleSubmit = async () => { 
-    await animeUrl(anime, callBackAnime);
-    setAnime("")
+  const handleSubmit = async () => {
+    socket.emit("incoming data", anime);
+    setAnime("");
   }
 
   return(
@@ -22,7 +21,7 @@ const Header = ({ siteTitle, callBackAnime }) => {
         <form className="form-inline">
           <input onChange={(e) => setAnime(e.target.value)} value={anime} className="form-control" id="animeSearch" type="text" placeholder="Enter Anime URL" aria-label="Enter Anime URL"/>
           <button onClick={handleSubmit} className=" button-left-space btn text-white btn-outline-dark" type="button">Enter</button>
-          <a className="text-white btn btn-outline-info button-left-space" target="_blank" href="https://www.animebam.se/series">Find Anime Here!</a>
+          <a className="text-white btn btn-outline-info button-left-space" target="_blank" href="https://www.gogoanime1.com/">Find Anime Here!</a>
         </form>
       </nav>
     </div>
