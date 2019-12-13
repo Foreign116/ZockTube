@@ -1,7 +1,6 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-
 const puppeteer = require('puppeteer');
 
 //Port from environment variable or default - 4001
@@ -11,6 +10,10 @@ const port = process.env.PORT || 4001;
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+
+console.log(__dirname)
+
+
 
 //Setting up a socket with the namespace "connection" for new sockets
 io.on("connection", socket => {

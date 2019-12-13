@@ -8,10 +8,10 @@
 import React, {useState} from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
-
+import io from "socket.io-client"
 import Header from "./header"
 
-let socket = require('socket.io-client')('http://127.0.0.1:4001');
+let socket = io.connect('http://127.0.0.1:4001');
 
 const Layout = (props) => {
   const [animeurl, setAnime] = useState("");
