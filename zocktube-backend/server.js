@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 const puppeteer = require('puppeteer');
+const path = require("path")
 
 //Port from environment variable or default - 4001
 const port = process.env.PORT || 4001;
@@ -11,7 +12,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-console.log(__dirname)
+app.use(express.static(path.join(__dirname, 'zocktube-frontend/public')));
 
 
 
@@ -67,6 +68,10 @@ io.on("connection", socket => {
 
     //A special namespace "disconnect" for when a client disconnects
     socket.on("disconnect", () => console.log("Client disconnected"));
+});
+
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname, "zocktube-frontend/public/index.html"));
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

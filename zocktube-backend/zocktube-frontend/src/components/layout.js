@@ -11,7 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import io from "socket.io-client"
 import Header from "./header"
 
-let socket = io.connect('http://127.0.0.1:4001');
+let socket = io.connect();
 
 const Layout = (props) => {
   const [animeurl, setAnime] = useState("");
