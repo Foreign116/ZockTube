@@ -1,5 +1,5 @@
 const express = require("express");
-const puppeteer = require('puppeteer');
+const Anime = require('anime-scraper').Anime
 const path = require("path")
 const port = process.env.PORT || 3000;
 const host = "0.0.0.0"
@@ -17,6 +17,8 @@ const server = app.listen(port, host, () => console.log(`Listening on port ${por
 
 const io = require("socket.io")(server);
 
+
+
 //Setting up a socket with the namespace "connection" for new sockets
 io.on("connection", socket => {
     console.log("New client connected");
@@ -27,49 +29,15 @@ io.on("connection", socket => {
     })
 
     //Here we listen on a new namespace called "incoming data"
-    socket.on("incoming data", (data)=>{
-        //Here we broadcast it out to all other sockets EXCLUDING the socket which sent us the data
-        function getText(linkText) {
-            linkText = linkText.replace(/\r\n|\r/g, "\n");
-            linkText = linkText.replace(/\ +/g, " ");
+    socket.on("incoming data", ({name,episode})=>{
+      Anime.fromName(name).then(function (anime) {
+        console.log("before")
+        anime.episodes[episode-1].fetch().then(function (e) {
+          const animeurl = e.videoLinks[3].url
+          io.emit("outgoing data", {url: animeurl});
           
-            // Replace &nbsp; with a space 
-            var nbspPattern = new RegExp(String.fromCharCode(160), "g");
-            return linkText.replace(nbspPattern, " ");
-          }
-
-        async function findByLink(page, linkString) {
-            const links = await page.$$('a')
-            for (var i=0; i < links.length; i++) {
-              let valueHandle = await links[i].getProperty('innerText');
-              let linkText = await valueHandle.jsonValue();
-              let aTag = await links[i].getProperty('href');
-              let aTaglinkText = await aTag.jsonValue();
-              const text = getText(linkText);
-              if (linkString == text) {
-                console.log(aTaglinkText,"returning link")
-                return aTaglinkText;
-              }
-            }
-            console.log("returning null")
-            return null;
-          }
-
-        (async () => {
-            console.log(data)
-            const browser = await puppeteer.launch({
-              'args' : [
-                '--no-sandbox',
-                '--disable-setuid-sandbox'
-              ]
-            });
-            const page = await browser.newPage();
-            await page.goto(data, {waitUntil: 'networkidle0'});
-            const links =  await findByLink(page, "Download");
-            console.log(links)
-            io.emit("outgoing data", {url: links});
-            await browser.close();
-          })();
+        })
+      })
     });
 
     //A special namespace "disconnect" for when a client disconnects

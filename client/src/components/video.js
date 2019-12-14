@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import ReactPlayer from 'react-player'
+import Iframe from 'react-iframe'
 
 class Video extends Component {
   state = {
@@ -33,7 +33,8 @@ class Video extends Component {
     const { animeurl } = this.props;
     return (
       <div className="container">
-          <ReactPlayer onPause={this.changeStatusPause} onPlay={this.changeStatusPlay} url={animeurl}light playsinline controls playing={this.state.torf} />
+          {/*<ReactPlayer onPause={this.changeStatusPause} onPlay={this.changeStatusPlay} url={animeurl}light playsinline controls playing={this.state.torf} /> */}
+          <Iframe url={animeurl} scrolling="no" allowFullScreen position="absolute" width="50%" height="50%"/>
       </div>
       )
   }
