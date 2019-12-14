@@ -6,14 +6,14 @@ const path = require("path")
 const port = process.env.PORT || 3000;
 const host = "0.0.0.0"
 const app = express();
-//const io = socketIo(app);
+const io = socketIo(app);
 
 app.use(express.static(path.join(__dirname, 'client/public')));
 
 
 
 //Setting up a socket with the namespace "connection" for new sockets
-/*io.on("connection", socket => {
+io.on("connection", socket => {
     console.log("New client connected");
 
     socket.on("changeStatus", (data) => {
@@ -64,7 +64,7 @@ app.use(express.static(path.join(__dirname, 'client/public')));
 
     //A special namespace "disconnect" for when a client disconnects
     socket.on("disconnect", () => console.log("Client disconnected"));
-});*/
+});
 
 app.get('*', (req,res) =>{
   res.sendFile(path.join(__dirname, "client/public/index.html"));
