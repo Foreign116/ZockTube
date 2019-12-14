@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-prebuild":"(cd zocktube-frontend && npm install ) && (cd.. && npm install)",
-    "build": "(cd zocktube-frontend && gatsby clean && gatsby build )",
+    "preinstall":"(cd zocktube-frontend && npm install ) && (cd.. && npm install)",
+    "postinstall": "(cd zocktube-frontend && gatsby clean && gatsby build )",
     "start":  "node server.js"
   },
   "author": "",
