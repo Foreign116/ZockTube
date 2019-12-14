@@ -4,13 +4,12 @@ const socketIo = require("socket.io");
 const puppeteer = require('puppeteer');
 const path = require("path")
 const port = process.env.PORT || 3000;
-const host = '0.0.0.0';
 
 //Setting up express and adding socketIo middleware
 const app = express();
 const io = socketIo(app);
 
-app.use(express.static(path.join(__dirname, 'zocktube-frontend/public')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 
 
 
@@ -69,7 +68,7 @@ io.on("connection", socket => {
 });
 
 app.get('*', (req,res) =>{
-  res.sendFile(path.join(__dirname, "zocktube-frontend/public/index.html"));
+  res.sendFile(path.join(__dirname, "client/public/index.html"));
 });
 
 app.listen(port, host, () => console.log(`Listening on port ${port}`));
