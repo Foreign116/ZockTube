@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "(cd zocktube-frontend && npm install && gatsby clean && gatsby build ) && (cd.. && npm install && node server.js)"
+    "heroku-prebuild":"(cd zocktube-frontend && npm install ) && (cd.. && npm install)",
+    "build": "(cd zocktube-frontend && gatsby clean && gatsby build )",
+    "start":  "node server.js"
   },
   "author": "",
   "license": "ISC",
