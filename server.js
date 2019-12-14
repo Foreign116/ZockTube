@@ -1,16 +1,21 @@
 const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
 const puppeteer = require('puppeteer');
 const path = require("path")
 const port = process.env.PORT || 3000;
 const host = "0.0.0.0"
 const app = express();
-const io = socketIo(app);
+
 
 app.use(express.static(path.join(__dirname, 'client/public')));
 
 
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname, "client/public/index.html"));
+});
+
+const server = app.listen(port, host, () => console.log(`Listening on port ${port}`));
+
+const io = require("socket.io")(server);
 
 //Setting up a socket with the namespace "connection" for new sockets
 io.on("connection", socket => {
@@ -65,9 +70,3 @@ io.on("connection", socket => {
     //A special namespace "disconnect" for when a client disconnects
     socket.on("disconnect", () => console.log("Client disconnected"));
 });
-
-app.get('*', (req,res) =>{
-  res.sendFile(path.join(__dirname, "client/public/index.html"));
-});
-
-app.listen(port, host, () => console.log(`Listening on port ${port}`));
