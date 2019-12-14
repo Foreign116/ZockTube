@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall":"(cd zocktube-frontend && npm install ) && (cd.. && npm install)",
+    "preinstall":"(cd zocktube-frontend && npm install ) && (cd .. && npm install)",
     "postinstall": "(cd zocktube-frontend && gatsby clean && gatsby build )",
     "start":  "node server.js"
   },
