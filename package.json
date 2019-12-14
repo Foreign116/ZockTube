@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "(cd zocktube-frontend && gatsby clean && npm install && gatsby build ) && (cd.. && npm install && node server.js)"
+    "start": "(cd zocktube-frontend && npm install && gatsby clean && gatsby build ) && (cd.. && npm install && node server.js)"
   },
   "author": "",
   "license": "ISC",
