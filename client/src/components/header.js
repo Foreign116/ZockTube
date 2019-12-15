@@ -22,8 +22,8 @@ const Header = ({ siteTitle,socket }) => {
         <a className="navbar-brand" href="/"><h1>{siteTitle}</h1></a>
         <form className="form-inline">
           <input onChange={(e) => setAnime(e.target.value)} value={anime} className="form-control" id="animeSearch" type="text" placeholder="Enter Anime Name" aria-label="Enter Anime Name"/>
-          <input onChange={(e) => setEp(e.target.value)} value={ep} className="form-control" id="epSearch" type="text" placeholder="Enter Anime Episode" aria-label="Enter Anime Episode"/>
-          <button onClick={handleSubmit} className=" button-left-space btn text-white btn-outline-dark" type="button">Enter</button>
+          <input onChange={(e) => setEp(e.target.value)} value={ep} className="form-control left-space" id="epSearch" type="text" placeholder="Enter Anime Episode" aria-label="Enter Anime Episode"/>
+          <button onClick={handleSubmit} className=" left-space btn text-white btn-outline-dark" type="button">Enter</button>
         </form>
       </nav>
     </div>
