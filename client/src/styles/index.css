@@ -18,3 +18,22 @@ a{
 .left-space {
  margin-left: 2rem;
 }
+.bigger-iframe{
+    height: 30rem;
+    width: 100%;
+}
+
+.dynamic-messages {
+    border: 1px solid blue;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    height: 30rem;
+    background-color: white;
+    color: black;
+    overflow-y: scroll
+}
+
+.form-message {
+    margin-left: 2rem;
+}

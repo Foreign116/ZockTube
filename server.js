@@ -22,6 +22,16 @@ const io = require("socket.io")(server);
 //Setting up a socket with the namespace "connection" for new sockets
 io.on("connection", socket => {
 
+  io.emit("check username")
+
+  socket.on("user Connected", (name) => {
+    socket.broadcast.emit("new user", {user:name})
+  })
+
+  socket.on("incoming message", ({user, message}) => {
+    io.emit("outgoing message", {user:user, newMessage:message})
+  })
+
     //Here we listen on a new namespace called "incoming data"
     socket.on("incoming data", ({name,episode})=>{
       Anime.fromName(name).then(function (anime) {
@@ -32,6 +42,7 @@ io.on("connection", socket => {
         })
       })
     });
+
 
     //A special namespace "disconnect" for when a client disconnects
     socket.on("disconnect", () => console.log("Client disconnected"));
