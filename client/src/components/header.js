@@ -9,7 +9,7 @@ const Header = ({ siteTitle,socket }) => {
   const [anime, setAnime] = useState("");
   const [ep, setEp] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     socket.emit("incoming data", {name:anime, episode:Number(ep)});
     setAnime("");
     setEp("");

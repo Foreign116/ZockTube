@@ -1,12 +1,20 @@
 import React, { Component } from "react"
 import Iframe from 'react-iframe'
+import ConnectBox from './connectBox'
 
 class Video extends Component {
   render() {
-    const { animeurl } = this.props;
+    const { animeurl, socket, cookies } = this.props;
     return (
       <div className="container">
-          <Iframe url={animeurl} scrolling="no" allowFullScreen position="absolute" width="50%" height="50%"/>
+          <div className="row">
+            <div className="col-8">
+              <Iframe className="bigger-iframe" frameBorder="0" url={animeurl} scrolling="no" allowFullScreen position="absolute"/>
+            </div>
+            <div className="col-4">
+              <ConnectBox cookies={cookies} socket={socket}/>
+            </div>
+          </div>
       </div>
       )
   }

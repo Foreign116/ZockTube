@@ -5,21 +5,35 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import io from "socket.io-client"
 import Header from "./header"
+import Cookies from 'universal-cookie';
+ 
+const cookies = new Cookies();
 
 let socket = io.connect();
 
 const Layout = (props) => {
   const [animeurl, setAnime] = useState("");
 
-  socket.on("outgoing data", (data)=>{
-    setAnime(data.url);
-    console.log(data.url)
-  });
+
+  useEffect(() => {
+    socket.on("outgoing data", (data)=>{
+      setAnime(data.url);
+      console.log(data.url)
+    });
+
+    if(cookies.get('userName')){
+      socket.emit("user Connected", cookies.get('userName'))
+    }
+    return () => {
+       
+      }
+  }, []);
+
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -35,6 +49,7 @@ const Layout = (props) => {
       React.cloneElement(child, {
         animeurl: animeurl,
         socket: socket,
+        cookies: cookies
       })
     );
 
