@@ -9,7 +9,8 @@ const Header = ({ siteTitle,socket }) => {
   const [anime, setAnime] = useState("");
   const [ep, setEp] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     socket.emit("incoming data", {name:anime, episode:Number(ep)});
     setAnime("");
     setEp("");
@@ -20,10 +21,10 @@ const Header = ({ siteTitle,socket }) => {
     <div className="container header-content">
       <nav className="navbar">
         <a className="navbar-brand" href="/"><h1>{siteTitle}</h1></a>
-        <form className="form-inline">
+        <form className="form-inline" onSubmit={(e) => handleSubmit(e)}>
           <input onChange={(e) => setAnime(e.target.value)} value={anime} className="form-control" id="animeSearch" type="text" placeholder="Enter Anime Name" aria-label="Enter Anime Name"/>
           <input onChange={(e) => setEp(e.target.value)} value={ep} className="form-control left-space" id="epSearch" type="text" placeholder="Enter Anime Episode" aria-label="Enter Anime Episode"/>
-          <button onClick={handleSubmit} className=" left-space btn text-white btn-outline-dark" type="button">Enter</button>
+          <button onClick={(e) => handleSubmit(e)} className=" left-space btn text-white btn-outline-dark" type="submit">Enter</button>
         </form>
       </nav>
     </div>

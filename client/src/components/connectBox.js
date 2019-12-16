@@ -1,5 +1,4 @@
 import React, { useState, useEffect }  from 'react'
-import { Button } from 'react-bootstrap'
 
 export default function ConnectBox(props) {
     const [message, setMessage] = useState("");
@@ -23,28 +22,28 @@ export default function ConnectBox(props) {
           }
       }, []);
 
-    const sendMessage = () => {
+    const sendMessage = (e) => {
+        e.preventDefault();
         socket.emit("incoming message", ({user:cookies.get('userName'), message:message}));
         setMessage("");
     }
 
-    const formPreventDefault = (e) => {
-        e.preventDefault();
-      }
-
     return (
         <div className="chat-area">
+            <div className="textbox-label form-message">
+                <h1>Chat</h1>
+            </div>
             <div id="dm" className="dynamic-messages">
-                {messages.map(({ userName, msg, id }) => <span className="bg-light text-dark font-weight-light" key={id}><span className="font-weight-bold bg-light text-dark">{`- ${userName}`}</span>{`${msg}`}<br/></span>)}
+                {messages.map(({ userName, msg, id }) => <span className="text-white font-weight-light" key={id}><span className="font-weight-bold text-white">{`- ${userName}`}</span>{`${msg}`}<br/></span>)}
             </div>
             <div className="row form-message">
                 <div className="col-9">
-                    <form className="form-inline" onSubmit={(e) => formPreventDefault(e) }>  
-                        <input onChange={(e) => setMessage(e.target.value)} value={message} className="form-control" id="message" type="text" aria-label="Enter Message"/>
+                    <form className="form-inline" onSubmit={(e) => sendMessage(e) }>  
+                        <input onChange={(e) => setMessage(e.target.value)} value={message} placeholder="send a message" className="form-control" id="message" type="text" aria-label="Enter Message"/>
                     </form>
                 </div>
                 <div className="col-3">
-                    <button onClick={sendMessage} className=" btn btn-light text-dark" type="button">Enter</button>
+                    <button onClick={(e) => sendMessage(e)} className=" btn btn-light text-dark" type="submit">Enter</button>
                 </div>
             </div>   
         </div>
