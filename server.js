@@ -36,7 +36,7 @@ io.on("connection", socket => {
     socket.on("incoming data", ({name,episode})=>{
       Anime.fromName(name).then(function (anime) {
         anime.episodes[episode-1].fetch().then(function (e) {
-          const animeurl = e.videoLinks[3].url
+          const animeurl = e.videoLinks[2].url
           io.emit("outgoing data", {url: animeurl});
           
         })

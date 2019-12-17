@@ -22,9 +22,21 @@ export default function ConnectBox(props) {
           }
       }, []);
 
+      const escapeHtml = (unsafe) => {
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+     }
+
     const sendMessage = (e) => {
         e.preventDefault();
-        socket.emit("incoming message", ({user:cookies.get('userName'), message:message}));
+        const messageString = escapeHtml(message);
+        if(messageString && messageString != '' && messageString != ' ' && messageString != null && messageString != undefined){
+        socket.emit("incoming message", ({user:cookies.get('userName'), message:messageString}));
+        }
         setMessage("");
     }
 
@@ -34,7 +46,7 @@ export default function ConnectBox(props) {
                 <h1>Chat</h1>
             </div>
             <div id="dm" className="dynamic-messages">
-                {messages.map(({ userName, msg, id }) => <span className="text-white font-weight-light" key={id}><span className="font-weight-bold text-white">{`- ${userName}`}</span>{`${msg}`}<br/></span>)}
+                {messages.map(({ userName, msg, id }) => <span className="text-white font-weight-light" key={id}><span className="font-weight-bold text-white">{`${userName}`}</span>{`${msg}`}<br/></span>)}
             </div>
             <div className="row form-message">
                 <div className="col-9">
