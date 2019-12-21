@@ -7,19 +7,11 @@ export default function ConnectBox(props) {
 
 
       useEffect(() => {
-        socket.on("new user", ({user}) =>{ 
-            const newMsg = {userName: user, msg: " HAS CONNECTED", id: Math.floor((Math.random()*100)+1)};
-            setMessages(messages => [...messages, newMsg])
-        })
-    
         socket.on("outgoing message", ({user, newMessage}) => {
             const newMsg = {userName: user, msg: ` : ${newMessage}`, id: Math.floor((Math.random()*100)+1)};
             setMessages(messages => [...messages, newMsg])
         })
-
-        return () => {
-
-          }
+        return () => {}
       }, []);
 
       const escapeHtml = (unsafe) => {
@@ -34,7 +26,7 @@ export default function ConnectBox(props) {
     const sendMessage = (e) => {
         e.preventDefault();
         const messageString = escapeHtml(message);
-        if(messageString && messageString != '' && messageString != ' ' && messageString != null && messageString != undefined){
+        if(messageString && messageString !== '' && messageString !== ' ' && messageString !== null && messageString !== undefined){
         socket.emit("incoming message", ({user:cookies.get('userName'), message:messageString}));
         }
         setMessage("");

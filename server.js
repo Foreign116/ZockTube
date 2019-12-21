@@ -4,6 +4,8 @@ const path = require("path")
 const port = process.env.PORT || 3000;
 const host = "0.0.0.0"
 const app = express();
+let serverClients = []
+let clientClients = []
 
 
 app.use(express.static(path.join(__dirname, 'client/public')));
@@ -21,11 +23,12 @@ const io = require("socket.io")(server);
 
 //Setting up a socket with the namespace "connection" for new sockets
 io.on("connection", socket => {
-
-  io.emit("check username")
-
   socket.on("user Connected", (name) => {
-    socket.broadcast.emit("new user", {user:name})
+    const newServerClient = {userName: name, id:socket.id};
+    const newClient = {userName: name}
+    serverClients.push(newServerClient)
+    clientClients.push(newClient)
+    io.emit("new users", {users:clientClients})
   })
 
   socket.on("incoming message", ({user, message}) => {
@@ -45,5 +48,31 @@ io.on("connection", socket => {
 
 
     //A special namespace "disconnect" for when a client disconnects
-    socket.on("disconnect", () => console.log("Client disconnected"));
+    socket.on("disconnect", () => {
+      let index = -10;
+      let userName= "";
+      for(let i=0; i<serverClients.length; i++){
+        if(serverClients[i].id === socket.id){
+          index = i;
+          userName = serverClients[i].userName;
+          break;
+        }
+      }
+      if(index !== -10){
+        serverClients.splice(index, 1);
+      }
+
+      index = -10;
+
+      if(userName !== ""){
+      for(let i=0; i< clientClients.length; i++) {
+        if(clientClients[i].userName === userName){
+          index = i;
+          break;
+        }
+      }
+      clientClients.splice(index, 1);
+      io.emit("new users", {users:clientClients})
+    }
+    });
 });
