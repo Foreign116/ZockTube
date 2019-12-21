@@ -38,9 +38,11 @@ io.on("connection", socket => {
     //Here we listen on a new namespace called "incoming data"
     socket.on("incoming data", ({name,episode})=>{
       Anime.fromName(name).then(function (anime) {
+        const title = anime.name;
         anime.episodes[episode-1].fetch().then(function (e) {
           const animeurl = e.videoLinks[2].url
-          io.emit("outgoing data", {url: animeurl});
+          const ep = e.name;
+          io.emit("outgoing data", {url: animeurl, ep:ep, title:title });
           
         })
       })

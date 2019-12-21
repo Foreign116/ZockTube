@@ -18,12 +18,15 @@ let socket = io.connect();
 
 const Layout = (props) => {
   const [animeurl, setAnime] = useState("");
+  const [title, setTitle] = useState("");
+  const [ep, setEp] = useState("");
 
 
   useEffect(() => {
-    socket.on("outgoing data", (data)=>{
-      setAnime(data.url);
-      console.log(data.url)
+    socket.on("outgoing data", ({url, title, ep})=>{
+      setAnime(url);
+      setTitle(title);
+      setEp(ep);
     });
 
     if(cookies.get('userName')){
@@ -49,7 +52,9 @@ const Layout = (props) => {
       React.cloneElement(child, {
         animeurl: animeurl,
         socket: socket,
-        cookies: cookies
+        cookies: cookies,
+        title: title,
+        ep: ep,
       })
     );
 
