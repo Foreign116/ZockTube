@@ -29,6 +29,10 @@ const Layout = (props) => {
       setEp(ep);
     });
 
+    socket.on("changed url", ({nextUrl}) => {
+      setAnime(nextUrl)
+    })
+
     if(cookies.get('userName')){
       socket.emit("user Connected", cookies.get('userName'))
     }

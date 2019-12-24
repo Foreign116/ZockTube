@@ -23,6 +23,25 @@ const io = require("socket.io")(server);
 
 //Setting up a socket with the namespace "connection" for new sockets
 io.on("connection", socket => {
+
+  socket.on("changing server", ({serverList, nextUrl}) => {
+    let urls = [];
+    for(let i=0; i<serverList.length; i++){
+      const { url, serverName, active} = serverList[i];
+      if(url === nextUrl){
+        const item = {url, serverName, active:"btn btn-dark"}
+        urls.push(item)
+      }
+      else{
+        const item = {url, serverName, active:"btn btn-light"}
+        urls.push(item)
+      }
+    }
+    io.emit("servers list", {serverList:urls})
+    io.emit("changed url", {nextUrl: nextUrl})
+  })
+
+
   socket.on("user Connected", (name) => {
     const newServerClient = {userName: name, id:socket.id};
     const newClient = {userName: name}
@@ -39,11 +58,17 @@ io.on("connection", socket => {
     socket.on("incoming data", ({name,episode})=>{
       Anime.fromName(name).then(function (anime) {
         const title = anime.name;
+        let urls = []
         anime.episodes[episode-1].fetch().then(function (e) {
+          for(let i =0; i<e.videoLinks.length; i++){
+            if(e.videoLinks[i].type === 'iframe'){
+            urls.push({url:e.videoLinks[i].url, serverName:e.videoLinks[i].name, active:(i==2)?"btn btn-dark":"btn btn-light"})
+            }
+          }
           const animeurl = e.videoLinks[2].url
           const ep = e.name;
           io.emit("outgoing data", {url: animeurl, ep:ep, title:title });
-          
+          io.emit("servers list", {serverList:urls})
         })
       })
     });
